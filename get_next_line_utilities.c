@@ -6,35 +6,27 @@
 /*   By: ezekaj <ezekaj@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 16:37:57 by ezekaj            #+#    #+#             */
-/*   Updated: 2024/11/27 18:23:34 by ezekaj           ###   ########.fr       */
+/*   Updated: 2024/11/29 17:37:42 by ezekaj           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	ft_bzero(void *s, size_t n)
-{
-	char	*str;
-	size_t	i;
-
-	i = 0;
-	str = (char *)s;
-	while (i < n)
-	{
-		str[i] = 0;
-		i++;
-	}
-}
-
 void	*ft_calloc(size_t count, size_t size)
 {
-	void	*a;
+	size_t	i;
+	char	*mem;
 
-	a = malloc(count * size);
-	if (!a)
+	i = 0;
+	mem = malloc(count * size);
+	if (!mem)
 		return (NULL);
-	ft_bzero(a, count * size);
-	return (a);
+	while (mem[i] != '\0')
+	{
+		mem[i] = 0;
+		i++;
+	}
+	return (mem);
 }
 
 char	*ft_strchr(const char *s, int c)
@@ -53,7 +45,4 @@ char	*ft_strchr(const char *s, int c)
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char	*news;
-
-	news = ft_calloc()
 }
