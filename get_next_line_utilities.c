@@ -6,7 +6,7 @@
 /*   By: ezekaj <ezekaj@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 16:37:57 by ezekaj            #+#    #+#             */
-/*   Updated: 2024/11/29 17:37:42 by ezekaj           ###   ########.fr       */
+/*   Updated: 2024/11/29 19:51:54 by ezekaj           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,28 @@ void	*ft_calloc(size_t count, size_t size)
 	return (mem);
 }
 
-char	*ft_strchr(const char *s, int c)
+int	len_to_nl(t_list *list)
 {
 	int	i;
+	int	len;
 
-	i = 0;
-	while (s[i] && s[i] != '\0')
+	if (NULL == list)
+		return (0);
+	len = 0;
+	while (list)
 	{
-		if ((char)c == s[i])
-			return ((char *)&s[i]);
-		i++;
+		i = 0;
+		while (list->str_buf[i])
+		{
+			if (list->str_buf[i] == '\n')
+			{
+				++len;
+				return (len);
+			}
+			++i;
+			++len;
+		}
+		list = list->next;
 	}
-	return (NULL);
-}
-
-char	*ft_strjoin(char const *s1, char const *s2)
-{
+	return (len);
 }

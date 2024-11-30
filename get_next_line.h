@@ -6,31 +6,28 @@
 /*   By: ezekaj <ezekaj@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 16:54:24 by ezekaj            #+#    #+#             */
-/*   Updated: 2024/11/29 17:41:30 by ezekaj           ###   ########.fr       */
+/*   Updated: 2024/11/30 13:59:48 by ezekaj           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 10
+# endif
+
 # include <unistd.h>
-# include <stdbool.h>
-# include <ctype.h>
-# include <errno.h>
-# include <float.h>
-# include <limits.h>
-# include <math.h>
-# include <stdarg.h>
-# include <stdio.h>
 # include <stdlib.h>
-# include <string.h>
-# include <time.h>
-# include <wchar.h>
 # include <fcntl.h>
 
+typedef struct s_lists
+{
+    char            *str_buf;
+    struct slist    *next;
+} t_list;
+
 char *get_next_line_h(int fd);
-char *ft_strchr(const char *s, int c);
-char *ft_strjoin(char const *s1, char const *s2);
 
 void	*ft_calloc(size_t count, size_t size);
 
