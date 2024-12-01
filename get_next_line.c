@@ -6,11 +6,40 @@
 /*   By: ezekaj <ezekaj@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 16:40:07 by ezekaj            #+#    #+#             */
-/*   Updated: 2024/11/29 19:46:36 by ezekaj           ###   ########.fr       */
+/*   Updated: 2024/12/01 16:56:23 by ezekaj           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+void	polish_list(t_list **list)
+{
+	t_list	*last_node;
+	t_list	*clean_node;
+	int		i;
+	int		j;
+	char	*buffer;
+
+	buffer = ft_calloc(1, BUFFER_SIZE + 1);
+	clean_node = ft_calloc(1, sizeof(t_list));
+	if (NULL == clean_node || NULL == buffer)
+		return ;
+	last_node = find_last_node(*list);
+	i = 0;
+	j = 0;
+	while (last_node->str_buf[i] != '\n' && last_node->str_buf[i] != '\0')
+		i++;
+	while (last_node->str_buf[i] != '\0')
+	{
+		buffer[j] = last_node->str_buf[i];
+		++i;
+		++j;
+	}
+	buffer[j] = '\0';
+	clean_node->str_buf = buffer;
+	clean_node->next = NULL;
+	deallocate_list(list, clean_node, buffer);
+}
 
 char	*get_line(t_list *list)
 {
@@ -35,7 +64,7 @@ void	append(t_list **list, char *buffer)
 	last_node = find_last_node(*list);
 	new_node = ft_calloc(1, sizeof(t_list));
 	if (NULL == new_node)
-		return (NULL);
+		return ;
 	if (NULL == last_node)
 		*list = new_node;
 	else
@@ -53,12 +82,12 @@ void	create_list(t_list **list, int fd)
 	{
 		buffer = ft_calloc(1, BUFFER_SIZE + 1);
 		if (!buffer)
-			return (NULL);
+			return ;
 		char_read = read(fd, buffer, BUFFER_SIZE);
 		if (!char_read)
 		{
 			free(buffer);
-			return (NULL);
+			return ;
 		}
 		buffer[char_read] = '\0';
 		append(list, buffer);
