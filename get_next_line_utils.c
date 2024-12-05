@@ -5,57 +5,47 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ezekaj <ezekaj@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/27 16:37:57 by ezekaj            #+#    #+#             */
-/*   Updated: 2024/12/01 16:57:17 by ezekaj           ###   ########.fr       */
+/*   Created: 2024/12/03 14:39:42 by ezekaj            #+#    #+#             */
+/*   Updated: 2024/12/05 19:04:24 by ezekaj           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	*ft_calloc(size_t count, size_t size)
+int	found_newline(t_list **list)
 {
-	size_t	i;
-	char	*mem;
-
-	i = 0;
-	mem = malloc(count * size);
-	if (!mem)
-		return (NULL);
-	while (mem[i] != '\0')
-	{
-		mem[i] = 0;
-		i++;
-	}
-	return (mem);
-}
-
-int	found_nl(t_list *list)
-{
-	if (NULL == list)
+	t_list	*temp;
+	int		i;	
+	
+	temp = *list;
+	if (NULL == temp)
 		return (0);
-	while (list)
+	while (temp)
 	{
-		while (*list->str_buf)
+		i = 0;
+		while (temp->str_buf[i])
 		{
-			if (*list->str_buf == '\n')
+			if (temp->str_buf[i] == '\n')
 				return (1);
-			++list->str_buf;
+			i++;
 		}
-		list = list->next;
+		temp = temp->next;
 	}
 	return (0);
 }
 
 t_list	*find_last_node(t_list *list)
 {
+	t_list	*last_node;
 	if (NULL == list)
 		return (NULL);
-	while (list->next)
-		list = list->next;
-	return (list);
+	last_node = list;
+	while (last_node->next)
+		last_node = last_node->next;
+	return (last_node);
 }
 
-void	str_cpy(t_list *list, char *str)
+void	ft_strcpy(t_list *list, char *str)
 {
 	int	i;
 	int	j;
@@ -82,7 +72,7 @@ void	str_cpy(t_list *list, char *str)
 	str[j] = '\0';
 }
 
-int	len_to_nl(t_list *list)
+int	len_to_newline(t_list *list)
 {
 	int	i;
 	int	len;
@@ -106,19 +96,4 @@ int	len_to_nl(t_list *list)
 		list = list->next;
 	}
 	return (len);
-}
-
-void	deallocate_list(t_list **list, t_list *clean_node, char *buffer)
-{
-	t_list	*temp;
-
-	if (NULL == list || NULL == clean_node || NULL == buffer)
-		return ;
-	temp = *list;
-	while (temp->next != clean_node)
-		temp = temp->next;
-	temp->next = NULL;
-	free(clean_node->str_buf);
-	free(clean_node);
-	free(buffer);
 }
