@@ -38,7 +38,6 @@ int		found_newline(t_list **list);
 
 void	create_list(t_list **list, int fd);
 void	ft_append(t_list **list, char *buffer);
-void	ft_dealloc(t_list **list, t_list *clean_node, char *buffer);
 void	ft_strcpy(t_list *list, char *str);
 void	ft_polish(t_list **list);
 
