@@ -6,7 +6,7 @@
 /*   By: ezekaj <ezekaj@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 14:39:42 by ezekaj            #+#    #+#             */
-/*   Updated: 2024/12/05 19:04:24 by ezekaj           ###   ########.fr       */
+/*   Updated: 2025/01/29 12:48:09 by ezekaj           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	found_newline(t_list **list)
 {
 	t_list	*temp;
 	int		i;	
-	
+
 	temp = *list;
 	if (NULL == temp)
 		return (0);
@@ -37,6 +37,7 @@ int	found_newline(t_list **list)
 t_list	*find_last_node(t_list *list)
 {
 	t_list	*last_node;
+
 	if (NULL == list)
 		return (NULL);
 	last_node = list;
@@ -60,7 +61,8 @@ void	ft_strcpy(t_list *list, char *str)
 		{
 			if (list->str_buf[i] == '\n')
 			{
-				str[j] = '\0';
+				str[j] = '\n';
+				str[j + 1] = '\0';
 				return ;
 			}
 			str[j] = list->str_buf[i];

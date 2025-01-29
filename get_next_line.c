@@ -6,7 +6,7 @@
 /*   By: ezekaj <ezekaj@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 14:36:18 by ezekaj            #+#    #+#             */
-/*   Updated: 2024/12/05 19:03:36 by ezekaj           ###   ########.fr       */
+/*   Updated: 2025/01/29 12:47:47 by ezekaj           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 void	ft_polish(t_list **list)
 {
 	t_list	*temp;
+
 	while ((*list))
 	{
 		temp = (*list)->next;
@@ -64,13 +65,11 @@ void	create_list(t_list **list, int fd)
 
 	while (!found_newline(list))
 	{
-
 		buffer = malloc(BUFFER_SIZE + 1);
 		if (!buffer)
 			return ;
 		char_read = read(fd, buffer, BUFFER_SIZE);
-		// printf("buffer: %s\n", buffer);
-		if (char_read == 0) 
+		if (char_read == 0)
 		{
 			free(buffer);
 			return ;
@@ -85,7 +84,8 @@ char	*get_next_line(int fd)
 	static t_list	*list;
 	char			*next_line;
 
-	if (fd < 0 || BUFFER_SIZE < 1)
+	next_line = NULL;
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, next_line, 0) < 0)
 		return (NULL);
 	create_list(&list, fd);
 	if (list == NULL)

@@ -6,7 +6,7 @@
 /*   By: ezekaj <ezekaj@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:59:28 by ezekaj            #+#    #+#             */
-/*   Updated: 2024/12/05 18:40:04 by ezekaj           ###   ########.fr       */
+/*   Updated: 2025/01/29 12:47:08 by ezekaj           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
-#include <stdio.h>
+# include <stdio.h>
 
 typedef struct s_list
 {
