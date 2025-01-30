@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ezekaj <ezekaj@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: gasolineeater <gasolineeater@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 14:36:18 by ezekaj            #+#    #+#             */
-/*   Updated: 2025/01/29 12:47:47 by ezekaj           ###   ########.fr       */
+/*   Updated: 2025/01/30 15:11:07 by gasolineeat      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,10 @@ void	create_list(t_list **list, int fd)
 
 	while (!found_newline(list))
 	{
-		buffer = malloc(BUFFER_SIZE + 1);
+		buffer = malloc(sizeof(char *) + 1);
 		if (!buffer)
 			return ;
-		char_read = read(fd, buffer, BUFFER_SIZE);
+		char_read = read(fd, buffer, 1);
 		if (char_read == 0)
 		{
 			free(buffer);
