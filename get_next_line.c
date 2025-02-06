@@ -3,115 +3,99 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gasolineeater <gasolineeater@student.42    +#+  +:+       +#+        */
+/*   By: ezekaj <ezekaj@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 14:36:18 by ezekaj            #+#    #+#             */
-/*   Updated: 2025/01/30 15:11:07 by gasolineeat      ###   ########.fr       */
+/*   Updated: 2025/02/06 17:42:15 by ezekaj           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 
-void	ft_polish(t_list **list)
+char	*ft_get_line(char **buffer)
 {
-	t_list	*temp;
+	char	*line;
+	char	*nl_pos;
+	size_t	i;
 
-	while ((*list))
-	{
-		temp = (*list)->next;
-		free((*list)->str_buf);
-		free(*list);
-		*list = temp;
-	}
-}
-
-char	*ft_get_line(t_list	*list)
-{
-	int		str_len;
-	char	*next_str;
-
-	if (NULL == list)
-		return (0);
-	str_len = len_to_newline(list);
-	next_str = malloc(str_len + 1);
-	if (!next_str)
-		return (0);
-	ft_strcpy(list, next_str);
-	return (next_str);
-}
-
-void	ft_append(t_list **list, char *buffer)
-{
-	t_list	*new_node;
-	t_list	*last_node;
-
-	last_node = find_last_node(*list);
-	new_node = malloc(sizeof(t_list));
-	if (!new_node)
-		return ;
-	if (last_node == NULL)
-		*list = new_node;
+	if (!*buffer)
+		return (NULL);
+	nl_pos = ft_strchr(*buffer, '\n');
+	if (nl_pos)
+		i = nl_pos - *buffer + 1;
 	else
-		last_node->next = new_node;
-	new_node->str_buf = buffer;
-	new_node->next = NULL;
+		i = ft_strlen(*buffer);
+	line = malloc(i + 1);
+	if (!line)
+		return (NULL);
+	ft_strlcpy(line, *buffer, i + 1);
+	ft_strlcpy(*buffer, *buffer + i, ft_strlen(*buffer) - i + 1);
+	if (**buffer == 0)
+	{
+		free(*buffer);
+		*buffer = NULL;
+	}
+	return (line);
 }
 
-void	create_list(t_list **list, int fd)
+void	create_list(char **buffer, size_t fd)
 {
-	int		char_read;
-	char	*buffer;
+	char	*list;
+	size_t	chars_read;
 
-	while (!found_newline(list))
+	while (!ft_strchr(*buffer, '\n'))
 	{
-		buffer = malloc(sizeof(char *) + 1);
-		if (!buffer)
+		list = malloc(BUFFER_SIZE + 1);
+		if (!list)
 			return ;
-		char_read = read(fd, buffer, 1);
-		if (char_read == 0)
+		chars_read = read(fd, list, BUFFER_SIZE);
+		if (!chars_read)
 		{
-			free(buffer);
+			free(list);
 			return ;
 		}
-		buffer[char_read] = '\0';
-		ft_append(list, buffer);
+		list[chars_read] = '\0';
+		ft_strjoin(buffer, list);
+		free(list);
 	}
 }
 
 char	*get_next_line(int fd)
 {
-	static t_list	*list;
-	char			*next_line;
+	static char		*buffer;
+	char			*line;
 
-	next_line = NULL;
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, next_line, 0) < 0)
+	line = NULL;
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, line, 0) < 0)
 		return (NULL);
-	create_list(&list, fd);
-	if (list == NULL)
+	create_list(&buffer, fd);
+	if (buffer == NULL)
 		return (NULL);
-	next_line = ft_get_line(list);
-	ft_polish(&list);
-	return (next_line);
+	line = ft_get_line(&buffer);
+	if (!line)
+	{
+		free(buffer);
+		buffer = NULL;
+		return (NULL);
+	}
+	return (line);
 }
 
-// int main(void)   
+// int main()
 // {
-// 	int fd = open("test.txt", O_RDONLY);
+// 	int fd;
 // 	char *line;
 
-// 	line = get_next_line(fd);
-// 	printf("%s\n", line);
-// 	line = get_next_line(fd);
-// 	printf("%s\n", line);
-// 	line = get_next_line(fd);
-// 	printf("%s\n", line);
-// 	line = get_next_line(fd);
-// 	printf("%s\n", line);
-// 	line = get_next_line(fd);
-// 	printf("%s\n", line);
-// 	line = get_next_line(fd);
-// 	printf("%s\n", line);
-// 	close(fd);
-// 	return (0);
+// 	fd = open("file.txt", O_RDONLY );
+// 	if (fd < 0)
+// 		if (fd < 0) {
+//         perror("Failed to open file");
+//         return (1);
+//     }
+//     while ((line = get_next_line(fd)) != NULL) {
+//         printf("%s", line);
+//         free(line); 
+//     }
+//     close(fd);
+//     return (0);
 // }

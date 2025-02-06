@@ -6,96 +6,82 @@
 /*   By: ezekaj <ezekaj@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 14:39:42 by ezekaj            #+#    #+#             */
-/*   Updated: 2025/01/29 12:48:09 by ezekaj           ###   ########.fr       */
+/*   Updated: 2025/02/06 17:06:55 by ezekaj           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	found_newline(t_list **list)
+size_t	ft_strlen(const char *s)
 {
-	t_list	*temp;
-	int		i;	
+	size_t	i;
 
-	temp = *list;
-	if (NULL == temp)
-		return (0);
-	while (temp)
-	{
-		i = 0;
-		while (temp->str_buf[i])
-		{
-			if (temp->str_buf[i] == '\n')
-				return (1);
-			i++;
-		}
-		temp = temp->next;
-	}
-	return (0);
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
 }
 
-t_list	*find_last_node(t_list *list)
+char	*ft_strchr(char *s, size_t c)
 {
-	t_list	*last_node;
+	size_t	i;
 
-	if (NULL == list)
+	i = 0;
+	if (!s)
 		return (NULL);
-	last_node = list;
-	while (last_node->next)
-		last_node = last_node->next;
-	return (last_node);
+	while (s[i])
+	{
+		if (s[i] == (char) c)
+			return ((char *)(s + i));
+		i++;
+	}
+	return (NULL);
 }
 
-void	ft_strcpy(t_list *list, char *str)
+char	*ft_strjoin(char **buffer, char *list)
 {
-	int	i;
-	int	j;
+	size_t	i;
+	size_t	j;
+	char	*news;
 
-	if (NULL == list)
-		return ;
+	i = 0;
 	j = 0;
-	while (list)
+	if (!*buffer)
 	{
-		i = 0;
-		while (list->str_buf[i])
-		{
-			if (list->str_buf[i] == '\n')
-			{
-				str[j] = '\n';
-				str[j + 1] = '\0';
-				return ;
-			}
-			str[j] = list->str_buf[i];
-			++i;
-			++j;
-		}
-		list = list->next;
+		*buffer = malloc(1);
+		(*buffer)[0] = 0;
 	}
-	str[j] = '\0';
+	news = malloc(ft_strlen(list) + ft_strlen(*buffer) + 1);
+	if (news == NULL)
+		return (NULL);
+	while ((*buffer)[i])
+	{
+		news[i] = (*buffer)[i];
+		i++;
+	}
+	while (list[j])
+	{
+		news[i + j] = list[j];
+		j++;
+	}
+	news[i + j] = 0;
+	free(*buffer);
+	*buffer = news;
+	return (*buffer);
 }
 
-int	len_to_newline(t_list *list)
+size_t	ft_strlcpy(char *dst, char *src, size_t dstsize)
 {
-	int	i;
-	int	len;
+	size_t	i;
 
-	if (NULL == list)
-		return (0);
-	len = 0;
-	while (list)
+	i = 0;
+	if (dstsize == 0)
+		return (ft_strlen(src));
+	while (i < dstsize - 1 && src[i])
 	{
-		i = 0;
-		while (list->str_buf[i])
-		{
-			if (list->str_buf[i] == '\n')
-			{
-				++len;
-				return (len);
-			}
-			++i;
-			++len;
-		}
-		list = list->next;
+		dst[i] = src[i];
+		i++;
 	}
-	return (len);
+	dst[i] = '\0';
+	return (ft_strlen(src));
 }

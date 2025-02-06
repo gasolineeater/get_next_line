@@ -6,7 +6,7 @@
 /*   By: ezekaj <ezekaj@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:59:28 by ezekaj            #+#    #+#             */
-/*   Updated: 2025/01/29 12:47:08 by ezekaj           ###   ########.fr       */
+/*   Updated: 2025/02/06 17:38:30 by ezekaj           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE  2
+#  define BUFFER_SIZE  1000
 # endif
 
 # include <unistd.h>
@@ -22,23 +22,15 @@
 # include <fcntl.h>
 # include <stdio.h>
 
-typedef struct s_list
-{
-	char			*str_buf;
-	struct s_list	*next;
-}	t_list;
-
-t_list	*find_last_node(t_list *list);
-
 char	*get_next_line(int fd);
-char	*ft_get_line(t_list	*list);
+char	*ft_strchr(char *s, size_t c);
+char	*ft_strjoin(char **buffer, char *list);
+char	*ft_get_line(char **buffer);
 
-int		len_to_newline(t_list *list);
-int		found_newline(t_list **list);
+size_t	ft_strlen(const char *s);
+size_t	ft_strlcpy(char *dst, char *src, size_t dstsize);
 
-void	create_list(t_list **list, int fd);
-void	ft_append(t_list **list, char *buffer);
-void	ft_strcpy(t_list *list, char *str);
-void	ft_polish(t_list **list);
+void	create_list(char **buffer, size_t fd);
+void	clear_buffer(char **buffer);
 
 #endif
