@@ -44,8 +44,8 @@ char	*ft_strjoin(char **buffer, char *list)
 	size_t	j;
 	char	*news;
 
-	i = 0;
-	j = 0;
+	i = -1;
+	j = -1;
 	if (!*buffer)
 	{
 		*buffer = malloc(1);
@@ -54,16 +54,10 @@ char	*ft_strjoin(char **buffer, char *list)
 	news = malloc(ft_strlen(list) + ft_strlen(*buffer) + 1);
 	if (news == NULL)
 		return (NULL);
-	while ((*buffer)[i])
-	{
+	while ((*buffer)[++i])
 		news[i] = (*buffer)[i];
-		i++;
-	}
-	while (list[j])
-	{
+	while (list[++j])
 		news[i + j] = list[j];
-		j++;
-	}
 	news[i + j] = 0;
 	free(*buffer);
 	*buffer = news;
