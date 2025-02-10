@@ -67,7 +67,7 @@ char	*get_next_line(int fd)
 
 	line = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, line, 0) < 0)
-		return (NULL);
+		return (free(buffer), buffer = NULL, NULL);
 	create_list(&buffer, fd);
 	if (buffer == NULL)
 		return (NULL);
